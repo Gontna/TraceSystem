@@ -3,10 +3,7 @@
 </template>
 <script lang="ts" setup>
 
-import {useUsersStore} from "@/store/user.ts";
 
-const store = useUsersStore()
-console.log(store)
 </script>
 <style>
 html, body, #app {

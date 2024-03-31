@@ -19,18 +19,51 @@ const routes = [
         name: 'home',
         redirect: '/system/account',
         component: () => import('@/views/HomeView.vue'),
+
         children: [
             {
                 path: 'account',
                 name: 'account',
                 redirect: '/system/account/list',
                 componenet: () => import('@/views/accountSetting/index.vue'),
-                mate: {title: '账号管理'},
+
                 children: [
                     {
                         path: 'list',
                         name: 'accountList',
-                        component: () => import('@/views/accountSetting/ListView.vue')
+                        component: () => import('@/views/accountSetting/ListView.vue'),
+                        meta: {title: '账号管理'},
+
+                    },
+                    {
+                        path: 'create',
+                        name: 'createAccount',
+                        component: () => import('@/views/accountSetting/appendInfo.vue'),
+                        meta: {title: '新增用户'}
+                    },
+                    {
+                        path: 'success',
+                        name: 'createSuccess',
+                        component: () => import('@/views/accountSetting/success.vue'),
+                        meta: {title: '创建成功'}
+                    }, {
+                        path: 'edit/:index(.*)',
+                        name: 'editAccount',
+                        component: () => import('@/views/accountSetting/edit.vue'),
+                        meta: {title: '编辑用户'}
+                    }
+
+                ]
+            },
+            {
+                path: 'operator',
+                name: 'operator',
+                redirect: '/system/operator/list',
+                children: [
+                    {
+                        path: 'list',
+                        component: () => import('@/views/operators/ListView.vue'),
+                        meta: {title: '运营商管理'}
 
                     }
                 ]

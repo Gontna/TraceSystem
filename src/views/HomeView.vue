@@ -13,7 +13,7 @@
         </Sider>
 
       </el-aside>
-      <el-main class=" transparent">
+      <el-main class=" h-1/1 transparent">
         <router-view></router-view>
       </el-main>
     </el-container>

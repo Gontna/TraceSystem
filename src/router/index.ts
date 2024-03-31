@@ -10,4 +10,9 @@ const index = createRouter({
     history: createWebHashHistory(),
     routes: routes,
 })
+index.beforeEach((to, _, next) => {
+    // @ts-ignore
+    window.document.title = to.meta.title
+    next()
+})
 export default index

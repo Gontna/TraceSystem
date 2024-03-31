@@ -27,6 +27,7 @@ import {reactive} from "vue";
 const router = useRouter()
 const menuList = reactive([
   {text: '账号管理', icon: "icon-Vector", route: '/system/account', iconCustom: false},
+  {text: '运营商管理', icon: "icon-Vector", route: '/system/operator', iconCustom: false},
 
 ])
 </script>
