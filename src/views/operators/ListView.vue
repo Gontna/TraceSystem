@@ -27,9 +27,9 @@
     <div v-for="(item,index) in data" :key="index"
          class=" flex-1 w-80 min-w-80 max-w-80 m-4 bg-white h-38 rounded-xl  ">
       <div class="flex justify-between">
-        <div class=" w-30 h-6  rounded-br-xl pl-2 rounded-tl-xl"
-             style="color: #fff;background-color: #279cff;font-size: 14px">
-          山东百姓大药房
+        <div class=" w-30 h-6  rounded-br-xl  rounded-tl-xl"
+             style="text-align: center;color: #fff;background-color: #279cff;font-size: 14px">
+          {{ item.ShopName }}
         </div>
         <div class="mr-2">
           <el-button link type="primary">编辑</el-button>
@@ -40,15 +40,15 @@
         <div class="px-3 pt-3 pb-2 pl-5 flex items-center justify-center">
           <el-avatar :size="50" :src="circleUrl"/>
           <div class="mx-3">
-            <p>李小鹏</p>
-            <p style="color:#c3c3c3;font-size: 14px">负责人:李赛</p>
+            <p>{{ item.LeaderName }}</p>
+            <p style="color:#c3c3c3;font-size: 14px">负责人:{{ item.JobName }}</p>
           </div>
         </div>
       </div>
       <div class="w-1/1 px-5" style="color:#c3c3c3;font-size: 14px">
-        <p> 联系方式:xxxxxxx</p>
+        <p> 联系方式:{{ item.Phone }}</p>
         <p style="overflow:hidden; white-space: nowrap;
-        text-overflow: ellipsis;">地址:山东省xxxxxxxxxxxxxxxxxxxx</p>
+        text-overflow: ellipsis;">地址:{{ item.Addr }}</p>
 
       </div>
     </div>
@@ -60,6 +60,8 @@
 
 <script lang="ts" setup>
 import {onMounted, reactive, ref, toRefs} from "vue";
+import {getShopInfoList} from "@/api/shop.ts";
+import {ElLoading} from "element-plus";
 
 const state = reactive({
   circleUrl:
@@ -69,11 +71,23 @@ const state = reactive({
   sizeList: ['small', '', 'large'] as const,
 })
 
-const {circleUrl, squareUrl, sizeList} = toRefs(state)
+const {circleUrl} = toRefs(state)
 const data = ref([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])
 const query = ref({
   keyName: ''
 })
+onMounted(() => {
+  getData()
+})
+const getData = () => {
+  getShopInfoList(query.value.keyName).then((res: any) => {
+    let loading = ElLoading.service()
+    if (res.retCode === 0) {
+      data.value = res.retData.info
+      loading.close()
+    }
+  })
+}
 const search = () => {
 
 }
