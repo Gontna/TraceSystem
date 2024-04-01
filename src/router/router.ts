@@ -74,7 +74,37 @@ const routes = [
                         meta: {title: '新增运营商'}
                     }
                 ]
+            },
+            {
+                path: 'product',
+                name: 'product',
+                redirect: "/system/product/list",
+                component: () => import('@/views/productManagement/index.vue'),
+                meta: {title: '产品管理'},
+                children: [
+                    {
+                        path: 'list',
+                        name: 'ProductList',
+                        component: () => import('@/views/productManagement/ListView.vue')
+                    },
+                    {
+                        path: 'appendInfo',
+                        component: () => import('@/views/productManagement/appendInfo.vue'),
+                        meta: {title: '新增产品'}
+                    },
+                    {
+                        path: 'editInfo/:index(.*)',
+                        component: () => import('@/views/productManagement/EditInfo.vue'),
+                        meta: {title: '编辑产品'}
+                    },
+                    {
+                        path: 'success/:flag(.*)',
+                        component: () => import('@/views/productManagement/success.vue'),
+                        meta: {title: '成功'}
+                    }
+                ]
             }
+
         ]
     }
 ]
