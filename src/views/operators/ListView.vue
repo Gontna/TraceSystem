@@ -38,7 +38,7 @@
       </div>
       <div class="flex ">
         <div class="px-3 pt-3 pb-2 pl-5 flex items-center justify-center">
-          <el-avatar :size="50" :src="circleUrl"/>
+          <el-avatar :size="50" :src='item.ImgUrl'/>
           <div class="mx-3">
             <p>{{ item.LeaderName }}</p>
             <p style="color:#c3c3c3;font-size: 14px">负责人:{{ item.JobName }}</p>
@@ -59,20 +59,21 @@
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive, ref, toRefs} from "vue";
+import {onMounted, ref} from "vue";
 import {getShopInfoList} from "@/api/shop.ts";
 import {ElLoading} from "element-plus";
+import {useRouter} from "vue-router";
 
-const state = reactive({
-  circleUrl:
-      'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-  squareUrl:
-      'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-  sizeList: ['small', '', 'large'] as const,
-})
-
-const {circleUrl} = toRefs(state)
-const data = ref([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4])
+const router = useRouter()
+const data = ref([{
+  ShopName: '',
+  LeaderName: '',
+  JobName: '',
+  Addr: '',
+  Phone: '',
+  ShopId: '',
+  ImgUrl: ''
+}])
 const query = ref({
   keyName: ''
 })
@@ -84,15 +85,16 @@ const getData = () => {
     let loading = ElLoading.service()
     if (res.retCode === 0) {
       data.value = res.retData.info
+      console.log(data.value)
       loading.close()
     }
   })
 }
 const search = () => {
-
+  getData()
 }
 const appendInfo = () => {
-
+  router.push({name: 'appendShop'})
 }
 
 onMounted(() => {

@@ -137,8 +137,6 @@ const getUserInfo = () => {
   })
 }
 const search = () => {
-  //搜索
-  console.log(query.value.keyName)
   getUserInfo()
 }
 const appendInfo = () => {

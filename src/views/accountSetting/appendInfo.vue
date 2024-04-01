@@ -18,10 +18,12 @@
         <el-upload
             ref="upload"
             :auto-upload="false"
+       
             :limit="1"
             :on-change="fileChange"
             :on-exceed="handleExceed"
             class="avatar-uploader"
+            list-type="picture"
         >
           <el-icon class="avatar-uploader-icon">
             <Plus/>
@@ -98,7 +100,8 @@ const formData = ref({
   depName: '',
   createDate: '',
   menuIds: '',
-  userId: 0
+  userId: 0,
+  file: null
 })
 
 const form_rules = reactive({
@@ -139,10 +142,13 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
   formData.value.menuIds = checkList.value.join(',')
 
   if (!formEl) return
+  let file = new FormData();
+  //@ts-ignore
+  file.append('Filedata', formData.value.file)
   //@ts-ignore
   await formEl.validate((valid, fields) => {
     if (valid) {
-      addAndEditAccount(formData.value).then((res: any) => {
+      addAndEditAccount(formData.value, file).then((res: any) => {
         if (res.retCode === 0) {
           router.push({path: '/system/account/success'})
         }
@@ -156,8 +162,11 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
   })
 }
 
+
 function fileChange(file: any) {
-  formInline.file = file['raw']
+  console.log(file)
+  formData.value.file = file['raw']
+
 
 }
 
@@ -219,5 +228,9 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
   height: 100px;
   text-align: center;
   background-color: #f6f6f6;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: var(--el-color-primary);
 }
 </style>

@@ -90,7 +90,18 @@ const upload = ref<UploadInstance>()
 const router = useRouter()
 const ruleFormRef = ref<FormInstance>()
 
-const data = ref([])
+const data = ref({
+  UserName: '',
+  UserPwd: '',
+  NickName: '',
+  Phone: '',
+  DepName: '',
+  CreateDate: '',
+  MenuIds: '',
+  UserId: 0,
+  File: null,
+  UserLevel: ''
+})
 var checkList = ref()
 const formData = ref({
   userName: '',
@@ -100,7 +111,8 @@ const formData = ref({
   depName: '',
   createDate: '',
   menuIds: '',
-  userId: '',
+  userId: 0,
+  file: null
 })
 
 const form_rules = reactive({
@@ -168,7 +180,7 @@ const getData = () => {
     }
 
   }).catch((err: any) => {
-    data.value = []
+
     ElMessage({
       type: 'error',
       message: err.retMsg
@@ -184,9 +196,12 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
   formData.value.menuIds = checkList.value.join(',')
 
   if (!formEl) return
+  let file = new FormData();
+  //@ts-ignore
+  file.append('Filedata', formData.value.file)
   await formEl.validate((valid) => {
     if (valid) {
-      addAndEditAccount(formData.value).then((res: any) => {
+      addAndEditAccount(formData.value, file).then((res: any) => {
         if (res.retCode === 0) {
           router.push({path: '/system/account/success'})
         }
@@ -202,6 +217,7 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
 
 function fileChange(file: any) {
   formData.value.file = file['raw']
+
 
 }
 

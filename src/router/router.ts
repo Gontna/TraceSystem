@@ -62,9 +62,16 @@ const routes = [
                 children: [
                     {
                         path: 'list',
+                        name: 'shopList',
                         component: () => import('@/views/operators/ListView.vue'),
                         meta: {title: '运营商管理'}
 
+                    },
+                    {
+                        path: 'append',
+                        name: 'appendShop',
+                        component: () => import('@/views/operators/appendInfo.vue'),
+                        meta: {title: '新增运营商'}
                     }
                 ]
             }
