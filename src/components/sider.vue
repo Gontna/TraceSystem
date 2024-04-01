@@ -1,22 +1,22 @@
 <template>
-  <div class="w-1/1 h-1/1 flex flex-col justify-center items-start">
-    <template v-for="(item) in menuList">
-      <div class="w-1/1">
-        <router-link :class="
+    <div class="w-1/1 h-1/1 flex flex-col justify-center items-start">
+        <template v-for="(item) in menuList">
+            <div class="w-1/1">
+                <router-link :class="
              router.currentRoute.value.path.startsWith(item.route)?'active':'unactive'
           " :to="item.route" class="block w-1/1 h-1/1 p-2 text-center ">
-          <i :class="item.icon,{
+                    <i :class="item.icon,{
             'active': router.currentRoute.value.path.startsWith(item.route)
           }"
-             class='iconfont mx-2 item-center'/>
-          <slot :item="item" name="default">
-            {{ item }}
-          </slot>
-        </router-link>
-      </div>
-    </template>
-    <div class="flex-1"></div>
-  </div>
+                       class='iconfont mx-2 item-center'/>
+                    <slot :item="item" name="default">
+                        {{ item }}
+                    </slot>
+                </router-link>
+            </div>
+        </template>
+        <div class="flex-1"></div>
+    </div>
 
 </template>
 
@@ -26,20 +26,20 @@ import {reactive} from "vue";
 
 const router = useRouter()
 const menuList = reactive([
-  {text: '账号管理', icon: "icon-Vector", route: '/system/account', iconCustom: false},
-  {text: '运营商管理', icon: "icon-Vector", route: '/system/operator', iconCustom: false},
-
+    {text: '账号管理', icon: "icon-Vector", route: '/system/account', iconCustom: false},
+    {text: '运营商管理', icon: "icon-Vector", route: '/system/operator', iconCustom: false},
+    {text: '产品管理', icon: "icon-Vector", route: '/system/product', iconCustom: false},
 ])
 </script>
 
 
 <style scoped>
 .active {
-  color: #337ecc;
-  background: #d9ecff;
+    color: #337ecc;
+    background: #d9ecff;
 }
 
 .unactive {
-  color: #c8cad1;
+    color: #c8cad1;
 }
 </style>
