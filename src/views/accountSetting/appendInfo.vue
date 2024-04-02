@@ -18,10 +18,11 @@
         <el-upload
             ref="upload"
             :auto-upload="false"
-       
+            :before-upload="beforeAvatarUpload"
             :limit="1"
             :on-change="fileChange"
             :on-exceed="handleExceed"
+            accept="image/jpeg,image/gif,image/png"
             class="avatar-uploader"
             list-type="picture"
         >
@@ -29,7 +30,7 @@
             <Plus/>
           </el-icon>
         </el-upload>
-
+        <span class="text-slate-400 ml-3">尺寸316*316，小于100k</span>
 
       </el-form-item>
       <br>
@@ -162,6 +163,16 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
   })
 }
 
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  if (rawFile.type !== 'image/jpeg' || 'image/png' || 'image/png') {
+    ElMessage.error('图片格式必须是JPG或PNG')
+    return false
+  } else if (rawFile.size / 1024 / 1024 / 1024 > 100) {
+    ElMessage.error('图片尺寸小于100KB')
+    return false
+  }
+  return true
+}
 
 function fileChange(file: any) {
   console.log(file)
@@ -179,6 +190,8 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 </script>
 
 <style>
+
+
 .el-checkbox__label {
   color: #c9c9cd;
 }

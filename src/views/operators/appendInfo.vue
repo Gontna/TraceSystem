@@ -22,6 +22,7 @@
             :limit="1"
             :on-change="fileChange"
             :on-exceed="handleExceed"
+            accept="image/jpeg,image/gif,image/png"
             class="avatar-uploader"
             list-type="picture"
         >
@@ -84,20 +85,22 @@ import {ArrowRight, Plus} from "@element-plus/icons-vue";
 import {reactive, ref} from 'vue'
 import {useRouter} from "vue-router";
 import {ElMessage, FormInstance, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
+import {addAndEditShopInfo} from "@/api/shop.ts";
 
 const ruleFormRef = ref<FormInstance>()
 const upload = ref<UploadInstance>()
 const router = useRouter()
 const formData = ref({
-  file: null,
   shopName: '',
+  leaderName: '',
   sex: '',
   phone: '',
   addr: '',
-  leaderName: '',
   addDate: '',
   jobName: '',
-  shopId: ''
+  shopId: 0,
+  file: null,
+
 
 })
 const form_rules = reactive({
@@ -140,6 +143,13 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
   //@ts-ignore
   await formEl.validate((valid, fields) => {
     if (valid) {
+      addAndEditShopInfo(formData.value, file).then((res: any) => {
+        if (res.retCode === 0) {
+          ElMessage.success('添加成功')
+        }
+      }).catch((err: any) => {
+        ElMessage.error(err.retMst)
+      })
     }
   })
 }
@@ -160,7 +170,7 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg', 'image/png') {
+  if (rawFile.type !== 'image/jpeg' || 'image/png' || 'image/png') {
     ElMessage.error('图片格式必须是JPG或PNG')
     return false
   } else if (rawFile.size / 1024 / 1024 / 1024 > 100) {
