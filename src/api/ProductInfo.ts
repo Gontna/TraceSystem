@@ -47,7 +47,8 @@ export function addProInfo({
                                ProLevel,
                                ProRegOwner,
                                ProNetCon,
-                               ProJX
+                               ProJX,
+                               file,
                            }) {
     let flag = 0
     if (ProId > 0) {
@@ -70,6 +71,10 @@ export function addProInfo({
             levTwo: LevTwo,
             levThree: LevThree,
             proId: flag
+        },
+        data: file,
+        headers: {
+            'Content-Type': 'multipart/form-data'
         }
     })
 }

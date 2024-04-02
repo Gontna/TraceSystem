@@ -32,9 +32,13 @@
                         {{ scope.row.ProId ?? '-' }}
                     </template>
                 </el-table-column>
-                <el-table-column align="center" label="产品图片" prop="ProductName">
+                <el-table-column align="center" label="产品图片" prop="ProUrl">
                     <template #default="scope">
-                        {{ scope.row.ProductName ?? '-' }}
+                        <el-image
+                                style="width: 50px; height: 50px"
+                                :src="scope.row.ProUrl"
+                                fit="cover"
+                        ></el-image>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="产品名称" prop="ProName">
@@ -79,7 +83,7 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作 ">
                     <template #default="scope">
-                        <el-button size="small" type="primary" @click="editTarget(scope.row.ProId)">编辑</el-button>
+                        <el-button size="small" type="primary" @click="editTarget(scope.row)">编辑</el-button>
                         <el-button size="small" style="margin-left: 5px" type="danger"
                                    @click="deleteTarget(scope.row.ProId)">删除
                         </el-button>
@@ -206,8 +210,41 @@ const deleteTarget = (index: number) => {
         delData(index)
     })
 }
-const editTarget = (index: number) => {
-    router.push({path: '/system/product/editInfo/' + index})
+const editTarget = (index: any) => {
+    let data = {};
+
+    data.ProId = index.ProId,
+        data.ProName = index.ProName,
+        data.SaveDate = index.SaveDate,
+        data.ProRegNo = index.ProRegNo,
+        data.ProSpec = index.ProSpec,
+        data.LevTwo = index.LevTwo,
+        data.LevThree = index.LevThree,
+        data.MainContent = index.MainContent,
+        data.ProLevel = index.ProLevel,
+        data.ProRegOwner = index.ProRegOwner,
+        data.ProNetCon = index.ProNetCon,
+        data.ProJX = index.ProJX,
+        data.ProUrl = index.ProUrl,
+        // console.log(data)
+        router.push({
+            name: 'editInfo',
+            params: {
+                ProId: data.ProId,
+                ProName: data.ProName,
+                SaveDate: data.SaveDate,
+                ProRegNo: data.ProRegNo,
+                ProSpec: data.ProSpec,
+                LevTwo: data.LevTwo,
+                LevThree: data.LevThree,
+                MainContent: data.MainContent,
+                ProLevel: data.ProLevel,
+                ProRegOwner: data.ProRegOwner,
+                ProNetCon: data.ProNetCon,
+                ProJX: data.ProJX,
+                ProUrl: data.ProUrl || 'null'
+            }
+        })
     //编辑
 }
 let del_target_cache = ref([])
