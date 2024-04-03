@@ -93,7 +93,8 @@ const routes = [
                         meta: {title: '新增产品'}
                     },
                     {
-                        path: 'editInfo/:index(.*)',
+                        path: 'editInfo',
+                        name: 'editInfo',
                         component: () => import('@/views/productManagement/EditInfo.vue'),
                         meta: {title: '编辑产品'}
                     },
