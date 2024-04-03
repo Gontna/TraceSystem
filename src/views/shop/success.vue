@@ -1,7 +1,7 @@
 <template>
   <div class="w-1/1 mt-3 mb-10">
     <el-breadcrumb :separator-icon="ArrowRight">
-      <el-breadcrumb-item :to="{ path: '/system/account' }">{{ crumbs }}账号</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/system/shop' }">{{ crumbs }}运营商信息</el-breadcrumb-item>
       <el-breadcrumb-item>{{ crumbs }}</el-breadcrumb-item>
 
     </el-breadcrumb>
@@ -13,9 +13,9 @@
         <span class="text-lg font-bold m-7">{{ text }}成功</span>
       </div>
       <div>
-        <el-button style="width: 146px" type="primary" @click="">查看产品详情</el-button>
-        <el-button plain style="border: 2px solid #b5b5b5" @click="router.push({path: '/system/account'})">
-          返回账号管理({{ seconds }}s)
+        <el-button style="width: 146px" type="primary" @click="">查看信息详情</el-button>
+        <el-button plain style="border: 2px solid #b5b5b5" @click="router.push({path: '/system/shop'})">
+          返回运营商管理({{ seconds }}s)
         </el-button>
       </div>
     </div>
@@ -47,7 +47,7 @@ const countTime = () => {
     } else {
       //时间结束后操作
       clearInterval(timer)
-      router.push({path: '/system/account'})
+      router.push({path: '/system/shop'})
     }
   }, 1000)
 }

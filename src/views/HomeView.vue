@@ -1,8 +1,8 @@
 <template>
   <el-container class="w-1/1  h-1/1 " style=" background-color: #f4faff;">
     <el-header class="bg-white shallow z-2">
-      头部
-      <!--      <Logout></Logout>-->
+
+      <Logout></Logout>
     </el-header>
     <el-container>
       <el-aside class="bg-white shallow pt-4" width="220px">
@@ -22,6 +22,7 @@
 
 <script lang="ts" setup>
 import Sider from '@/components/sider.vue'
+import Logout from '@/components/logout.vue'
 </script>
 
 
@@ -29,4 +30,8 @@ import Sider from '@/components/sider.vue'
 .shallow {
   box-shadow: rgba(234, 243, 250.24) 0px 3px 8px;
 }
+</style>
+<style>
+
+
 </style>

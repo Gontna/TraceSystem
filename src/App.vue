@@ -32,7 +32,9 @@ html, body, #app {
   color: #fff;
 }
 
+
 </style>
+
 <style scoped>
 
 </style>

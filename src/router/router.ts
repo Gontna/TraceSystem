@@ -42,12 +42,12 @@ const routes = [
                         meta: {title: '新增用户'}
                     },
                     {
-                        path: 'success',
+                        path: 'success/:flag(.*)',
                         name: 'createSuccess',
                         component: () => import('@/views/accountSetting/success.vue'),
                         meta: {title: '创建成功'}
                     }, {
-                        path: 'edit/:index(.*)',
+                        path: 'edit',
                         name: 'editAccount',
                         component: () => import('@/views/accountSetting/edit.vue'),
                         meta: {title: '编辑用户'}
@@ -56,22 +56,38 @@ const routes = [
                 ]
             },
             {
-                path: 'operator',
-                name: 'operator',
-                redirect: '/system/operator/list',
+                path: 'shop',
+                name: 'shop',
+                redirect: '/system/shop/list',
                 children: [
                     {
                         path: 'list',
                         name: 'shopList',
-                        component: () => import('@/views/operators/ListView.vue'),
+                        component: () => import('@/views/shop/ListView.vue'),
                         meta: {title: '运营商管理'}
 
+                    }, {
+                        path: 'detail',
+                        name: 'shopDetail',
+                        component: () => import('@/views/shop/detail.vue'),
+                        meta: {title: '运营商信息'}
                     },
                     {
                         path: 'append',
                         name: 'appendShop',
-                        component: () => import('@/views/operators/appendInfo.vue'),
+                        component: () => import('@/views/shop/appendInfo.vue'),
                         meta: {title: '新增运营商'}
+                    },
+                    {
+                        path: 'edit',
+                        name: 'editShop',
+                        component: () => import('@/views/shop/edit.vue'),
+                        meta: {title: '编辑'}
+                    },
+                    {
+                        path: 'success/:flag(.*)',
+                        component: () => import('@/views/shop/success.vue'),
+                        meta: {title: '成功'}
                     }
                 ]
             },
@@ -104,6 +120,12 @@ const routes = [
                         meta: {title: '成功'}
                     }
                 ]
+            },
+            {
+                path: 'upload',
+                name: 'upload',
+                component: () => import('@/views/upload/index.vue'),
+                meta: {title: '上传管理'}
             }
 
         ]

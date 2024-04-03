@@ -7,4 +7,5 @@ export {}
 declare global {
   const ElCheckBoxGroup: typeof import('element-plus/es')['ElCheckBoxGroup']
   const ElLoading: typeof import('element-plus/es')['ElLoading']
+  const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
 }

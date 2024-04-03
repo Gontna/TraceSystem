@@ -7,7 +7,7 @@ import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import 'virtual:windi.css'
 import router from './router/index'
-
+import '@/assets/fonticon/iconfont.css'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 const pinia = createPinia();

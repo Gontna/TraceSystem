@@ -14,6 +14,9 @@
         :rules="form_rules"
         class="demo-form-inline" label-position=left
         label-width="7em">
+      <h4>新增运营商</h4>
+      <br>
+      <br>
       <el-form-item label="账号头像" prop="file">
         <el-upload
             ref="upload"
@@ -145,7 +148,7 @@ const submitUpload = async (formEl: FormInstance | undefined) => {
     if (valid) {
       addAndEditShopInfo(formData.value, file).then((res: any) => {
         if (res.retCode === 0) {
-          ElMessage.success('添加成功')
+          router.push({path: '/system/shop/success/0'})
         }
       }).catch((err: any) => {
         ElMessage.error(err.retMst)
@@ -181,8 +184,64 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 }
 
 </script>
-
-
 <style scoped>
 
+</style>
+
+<style>
+
+.el-checkbox__label {
+  color: #c9c9cd;
+}
+
+.el-checkbox__inner {
+  border-radius: 50%;
+}
+
+.el-checkbox__inner::after {
+  transform: translate(-50%, -50%) scale(1) !important;
+  width: 4px;
+  height: 4px;
+  border-radius: 50% !important;
+  background-color: var(--el-color-white);
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transition: transform 0.15s ease-in;
+}
+
+.demo-form-inline .el-input {
+  --el-input-width: 220px;
+}
+
+.demo-form-inline .el-select {
+  --el-select-width: 220px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  background-color: #f6f6f6;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: var(--el-color-primary);
+}
 </style>

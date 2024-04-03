@@ -136,11 +136,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
       login(
           ruleForm.account,
           ruleForm.pass
-          //@ts-ignore
-      ).then(res => {
+      ).then((res: any) => {
         if (res.retCode === 0) {
           userStore.userInfo = res.retData.userInfo
           userStore.userInfo.UserPwd = ''
+
           ElMessage({
             type: 'success',
             message: '登录成功'
