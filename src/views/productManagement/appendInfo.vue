@@ -29,7 +29,6 @@
                         <Plus/>
                     </el-icon>
                 </el-upload>
-                <span class="text-slate-400 ml-3">尺寸316*316，小于100k</span>
 
             </el-form-item>
             <br>
@@ -58,7 +57,14 @@
             <br>
             <br>
             <el-form-item class="long" label="增加时间" prop="saveDate">
-                <el-input v-model="formData.saveDate"></el-input>
+                <el-date-picker
+                        v-model="formData.saveDate"
+                        clearable
+                        format="YYYY/MM/DD"
+                        placeholder="请选择添加时间"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                />
             </el-form-item>
             <el-form-item class="long" label="剂型" prop="ProJx">
                 <el-input v-model="formData.ProJx"></el-input>
@@ -95,7 +101,7 @@
 
 
                 <el-form-item class="small" prop="LevTwo">
-                    <el-input v-model.number="formData.LevTwo" :disabled="detection"></el-input>
+                    <el-input v-model.number="formData.LevTwo" :disabled="detection" ref="blur"></el-input>
                     <span>—</span>
                 </el-form-item>
 
@@ -124,13 +130,13 @@
 <script lang="ts" setup>
 import {ElMessage, FormInstance, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
 import {ArrowRight, Plus} from '@element-plus/icons-vue'
-import {computed, reactive, ref, watch} from "vue";
+import {reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {addProInfo} from "@/api/ProductInfo.ts";
 
 const upload = ref<UploadInstance>()
 const ruleFormRef = ref<FormInstance>()
-
+const blur = ref()
 const router = useRouter()
 const formData = reactive({
     ProNetCon: '',
@@ -147,12 +153,14 @@ const formData = reactive({
     LevThree: '',
     file: null
 })
-let detection = computed(() => {
-    return formData.ProLevel == 2 ? true : false
-})
-watch(detection, (newvalue) => {
-    if (newvalue) {
-        formData.LevTwo = '0'
+let detection = ref();
+watch(() => formData.ProLevel, (newvalue) => {
+    if (newvalue == '2') {
+        detection.value = true;
+        formData.LevTwo = '0';
+        ruleFormRef.value.validateField('LevTwo')
+    } else {
+        detection.value = false;
     }
 })
 const form_rules = reactive({
@@ -190,10 +198,10 @@ const form_rules = reactive({
         {required: true, message: '请输入数字', trigger: 'blur'}
     ],
     LevTwo: [
-        {required: true, message: '请输入数字', trigger: 'blur'}
+        {required: true, message: '请输入数字', trigger: 'blur', pattern: /^-?\d+\.?\d*$/}
     ],
     LevThree: [
-        {required: true, message: '请输入数字', trigger: 'blur'}
+        {required: true, message: '请输入数字', trigger: 'blur', pattern: /^-?\d+\.?\d*$/}
     ],
 })
 const addOrEditProduct = async (formEl: FormInstance | undefined) => {
@@ -281,10 +289,6 @@ const prolev = [{
     width: 63px;
 }
 
-.leave /deep/ .el-form-item__content {
-    /*display: flex;*/
-    align-items: flex-start;
-}
 </style>
 <style>
 .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {

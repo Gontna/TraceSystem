@@ -119,11 +119,28 @@ import {delProInfo, getProByName, getProInfo} from "@/api/ProductInfo.ts";
 import {ElLoading, ElMessage, ElMessageBox} from "element-plus";
 import {useRouter} from "vue-router";
 import {hint} from "@/components/hint.ts";
+import {useUsersStore} from '@/store/proinfo.ts'
+import {storeToRefs} from "pinia";
 
 // import 'element-plus/theme-chalk/el-message.css'
 // import 'element-plus/theme-chalk/el-message-box.css'
 
-
+const store = useUsersStore()
+let {
+    ProId,
+    ProName,
+    SaveDate,
+    ProRegNo,
+    ProSpec,
+    LevTwo,
+    LevThree,
+    MainContent,
+    ProLevel,
+    ProRegOwner,
+    ProNetCon,
+    ProJX,
+    ProUrl
+} = storeToRefs(store)
 const router = useRouter()
 let query = ref('') //查询参数
 let turnfiler = ref(false)//是否开启查询，默认关闭
@@ -211,46 +228,44 @@ const deleteTarget = (index: number) => {
     })
 }
 const editTarget = (index: any) => {
-    let data = {};
-
-    data.ProId = index.ProId,
-        data.ProName = index.ProName,
-        data.SaveDate = index.SaveDate,
-        data.ProRegNo = index.ProRegNo,
-        data.ProSpec = index.ProSpec,
-        data.LevTwo = index.LevTwo,
-        data.LevThree = index.LevThree,
-        data.MainContent = index.MainContent,
-        data.ProLevel = index.ProLevel,
-        data.ProRegOwner = index.ProRegOwner,
-        data.ProNetCon = index.ProNetCon,
-        data.ProJX = index.ProJX,
-        data.ProUrl = index.ProUrl,
-        // console.log(data)
-        router.push({
-            name: 'editInfo',
-            params: {
-                ProId: data.ProId,
-                ProName: data.ProName,
-                SaveDate: data.SaveDate,
-                ProRegNo: data.ProRegNo,
-                ProSpec: data.ProSpec,
-                LevTwo: data.LevTwo,
-                LevThree: data.LevThree,
-                MainContent: data.MainContent,
-                ProLevel: data.ProLevel,
-                ProRegOwner: data.ProRegOwner,
-                ProNetCon: data.ProNetCon,
-                ProJX: data.ProJX,
-                ProUrl: data.ProUrl || 'null'
-            }
-        })
+    // let data = {};
+    //
+    // data.ProId = index.ProId,
+    //     data.ProName = index.ProName,
+    //     data.SaveDate = index.SaveDate,
+    //     data.ProRegNo = index.ProRegNo,
+    //     data.ProSpec = index.ProSpec,
+    //     data.LevTwo = index.LevTwo,
+    //     data.LevThree = index.LevThree,
+    //     data.MainContent = index.MainContent,
+    //     data.ProLevel = index.ProLevel,
+    //     data.ProRegOwner = index.ProRegOwner,
+    //     data.ProNetCon = index.ProNetCon,
+    //     data.ProJX = index.ProJX,
+    //     data.ProUrl = index.ProUrl,
+    // console.log(data)
+    ProId.value = index.ProId,
+        ProName.value = index.ProName,
+        SaveDate.value = index.SaveDate,
+        ProRegNo.value = index.ProRegNo,
+        ProSpec.value = index.ProSpec,
+        LevTwo.value = index.LevTwo,
+        LevThree.value = index.LevThree,
+        MainContent.value = index.MainContent,
+        ProLevel.value = index.ProLevel,
+        ProRegOwner.value = index.ProRegOwner,
+        ProNetCon.value = index.ProNetCon,
+        ProJX.value = index.ProJX,
+        ProUrl.value = index.ProUrl
+    router.push({
+        name: 'editInfo',
+    })
     //编辑
 }
 let del_target_cache = ref([])
 const multi_del = (value: any) => {
     del_target_cache.value = value
-    console.log(del_target_cache)
+    // console.log(del_target_cache)
 }
 
 const mult_del_handler = () => {
@@ -258,7 +273,7 @@ const mult_del_handler = () => {
         // @ts-ignore
         return item.ProId
     })
-    console.log(del_target)
+    // console.log(del_target)
     if (del_target.length === 0) {
         ElMessage.error('请先选择要删除的条目!')
         return;

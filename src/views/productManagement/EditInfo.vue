@@ -44,7 +44,6 @@
                         <Plus/>
                     </el-icon>
                 </el-upload>
-                <span class="text-slate-400 ml-3">尺寸316*316，小于100k</span>
 
             </el-form-item>
             <br>
@@ -73,7 +72,14 @@
             <br>
             <br>
             <el-form-item class="long" label="增加时间" prop="saveDate">
-                <el-input v-model="formData.saveDate" :value="timeChange(formData.saveDate)"></el-input>
+                <el-date-picker
+                        v-model="formData.saveDate"
+                        clearable
+                        format="YYYY/MM/DD"
+                        placeholder="请选择添加时间"
+                        type="date"
+                        value-format="YYYY-MM-DD"
+                />
             </el-form-item>
             <el-form-item class="long" label="剂型" prop="ProJx">
                 <el-input v-model="formData.ProJx"></el-input>
@@ -110,7 +116,7 @@
 
 
                 <el-form-item class="small" prop="LevTwo">
-                    <el-input v-model.number="formData.LevTwo" :disabled="detection"></el-input>
+                    <el-input v-model.number="formData.LevTwo" :disabled="detection" ref="blur"></el-input>
                     <span>—</span>
                 </el-form-item>
 
@@ -140,8 +146,26 @@ import {computed, onBeforeMount, reactive, ref, watch} from "vue";
 import {useRouter} from "vue-router";
 import {addProInfo} from "@/api/ProductInfo.ts";
 import {ElMessage, FormInstance, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
+import {useUsersStore} from "@/store/proinfo.ts";
+import {storeToRefs} from "pinia";
 
 // let tranparent=ref(fa)
+let store = useUsersStore();
+let {
+    ProId,
+    ProName,
+    SaveDate,
+    ProRegNo,
+    ProSpec,
+    LevTwo,
+    LevThree,
+    MainContent,
+    ProLevel,
+    ProRegOwner,
+    ProNetCon,
+    ProJX,
+    ProUrl,
+} = storeToRefs(store);
 let csimg_url = ref()
 onBeforeMount(() => {
     if (formData.ProUrl != 'null') {
@@ -185,39 +209,31 @@ const form_rules = reactive({
         {required: true, message: '请输入数字', trigger: 'blur'}
     ],
     LevTwo: [
-        {required: true, message: '请输入数字', trigger: 'blur'}
+        {required: true, message: '请输入数字', trigger: 'blur', pattern: /^-?\d+\.?\d*$/}
     ],
     LevThree: [
-        {required: true, message: '请输入数字', trigger: 'blur'}
+        {required: true, message: '请输入数字', trigger: 'blur', pattern: /^-?\d+\.?\d*$/}
     ],
 
 })
 const ruleFormRef = ref<FormInstance>()
 const router = useRouter()
 const formData = reactive({
-    ProId: router.currentRoute.value.params.ProId,
-    ProNetCon: router.currentRoute.value.params.ProNetCon,
-    ProJx: router.currentRoute.value.params.ProJX,
-    ProName: router.currentRoute.value.params.ProName,
-    ProRegOwner: router.currentRoute.value.params.ProRegOwner,
-    ProRegNo: router.currentRoute.value.params.ProRegNo,
-    MainContent: router.currentRoute.value.params.MainContent,
-    ProSpec: router.currentRoute.value.params.ProSpec,
-    saveDate: router.currentRoute.value.params.SaveDate,
-    ProLevel: router.currentRoute.value.params.ProLevel,
+    ProId: ProId.value,
+    ProNetCon: ProNetCon.value,
+    ProJx: ProJX.value,
+    ProName: ProName.value,
+    ProRegOwner: ProRegOwner.value,
+    ProRegNo: ProRegNo.value,
+    MainContent: MainContent.value,
+    ProSpec: ProSpec.value,
+    saveDate: SaveDate.value,
+    ProLevel: ProLevel.value,
     LevOne: 1,
-    LevTwo: router.currentRoute.value.params.LevTwo,
-    LevThree: router.currentRoute.value.params.LevThree,
+    LevTwo: LevTwo.value,
+    LevThree: LevThree.value,
     file: null,
-    ProUrl: router.currentRoute.value.params.ProUrl,
-})
-let detection = computed(() => {
-    return formData.ProLevel == 2 ? true : false
-})
-watch(detection, (newvalue) => {
-    if (newvalue) {
-        formData.LevTwo = '0'
-    }
+    ProUrl: ProUrl.value,
 })
 const reset = () => {
     router.back()
@@ -231,6 +247,18 @@ const prolev = [{
     label: '3'
 }]
 const data = ref()
+
+let detection = computed(() => {
+    return formData.ProLevel == '2' ? true : false
+});
+const blur = ref()
+watch(detection, (newvalue) => {
+    if (newvalue) {
+        formData.LevTwo = '0';
+        ruleFormRef.value.validateField('LevTwo')
+    } else {
+    }
+},)
 const getData = () => {
     //api获取数据
     // getProInfo().then((res: any) => {
@@ -255,7 +283,7 @@ const getData = () => {
     // })
 }
 const editProInfo = async (formEl: FormInstance | undefined) => {
-    console.log(formEl)
+    console.log(ProId)
     if (!formEl) return
     let file = new FormData();
     file.append('Filedata', formData.file)
@@ -338,10 +366,6 @@ const timeChange = (time) => {
     width: 63px;
 }
 
-.leave /deep/ .el-form-item__content {
-    /*display: flex;*/
-    align-items: flex-start;
-}
 </style>
 <style>
 .el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {

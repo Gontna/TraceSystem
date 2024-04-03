@@ -30,8 +30,6 @@
                         <Plus/>
                     </el-icon>
                 </el-upload>
-                <span class="text-slate-400 ml-3">尺寸316*316，小于100k</span>
-
             </el-form-item>
             <br>
 
@@ -192,9 +190,6 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 
 </script>
 <style scoped>
-.leave /deep/ .el-form-item__content {
-    align-items: flex-start;
-}
 </style>
 <style>
 
