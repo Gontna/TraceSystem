@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <div class="flex justify-between flex-wrap   mt-3  "
+  <div class="flex justify-start flex-wrap   mt-3  "
        style="overflow: auto;max-height: 100%"
   >
     <div v-for="(item,index) in data" :key="index"

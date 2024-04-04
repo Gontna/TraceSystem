@@ -129,14 +129,14 @@ const getData = async () => {
   query.shopId = shopStore.data.ShopId.toString()
   let loading = ElLoading.service()
 
-  await getProCoudeInfoByShopId(query, pageInfo).then(res => {
+  await getProCoudeInfoByShopId(query, pageInfo).then((res: any) => {
 
     if (res.retCode == 0) {
       data.value = res.retData.info
       pageInfo.totalPage = res.retData.totalPage
       loading.close()
     }
-  }).catch(err => {
+  }).catch((err: any) => {
     data.value = []
     ElMessage.info(err.retMsg)
     loading.close()
@@ -156,10 +156,10 @@ const queryChange = (index: number) => {
   } else {
     activate.value = index
   }
-  query.timeType = index + 1
-  // getData()
+  query.timeType = (index + 1).toString()
+  getData()
 }
-
+let del_target_cache = ref([])
 const multi_del = (value: any) => {
   del_target_cache.value = value
 

@@ -11,7 +11,8 @@ html, body, #app {
   height: 100%;
   padding: 0;
   margin: 0;
-  min-width: 1000px;
+  min-width: 990px;
+  min-height: 800px;
 }
 
 .bg-white {

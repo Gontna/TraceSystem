@@ -25,9 +25,9 @@
     <div class="px-3 w-1/1 flex-1" style="min-height:0;">
       <el-table id="tableData" :data="data" :header-cell-style="rowClass"
                 :height="height"
-                class="rounded-lg max-h-180"
+                class="rounded-lg "
                 fit
-                style="overflow:auto "
+
                 @selection-change="multi_del">
         <el-table-column align="center" type="selection"/>
         <el-table-column align="center" label="序号" prop="UserId" width="60"/>
@@ -65,7 +65,7 @@
         </el-table-column>
         <el-table-column align="center" label="添加时间" prop="CreateDate">
           <template #default="scope">
-            {{ scope.row.CreateDate }}
+            {{ timeChange(scope.row.CreateDate) }}
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作 ">
@@ -119,6 +119,9 @@ let pageInfo = reactive({
   currentPage: 1, //当前页码
   pageSize: 10, //每页显示条目数
   totalPage: 1,  //总数居
+})
+onMounted(() => {
+  getUserInfo()
 })
 
 const getUserInfo = () => {
@@ -316,10 +319,12 @@ const rowClass = (row: any,) => {
   }
 
 }
+const timeChange = (time: any) => {
+  let data = new Date(time);
+  return `${data.getFullYear()}/${data.getMonth() + 1}/${data.getDate()}`
+}
 
-onMounted(() => {
-  getUserInfo()
-})
+
 ////////////////////////////////////////////////
 const height = ref('400px')
 const getAutoHeight = () => {
