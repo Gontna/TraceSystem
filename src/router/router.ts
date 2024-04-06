@@ -126,8 +126,13 @@ const routes = [
                 name: 'upload',
                 component: () => import('@/views/upload/index.vue'),
                 meta: {title: '上传管理'}
+            },
+            {
+                name: 'tracingsourcecode',
+                path: 'tracingsourcecode',
+                component: () => import('@/views/tracingsourcecode/index.vue'),
+                meta: {title: '申请溯源码'}
             }
-
         ]
     }
 ]
