@@ -235,7 +235,7 @@ const down = (down: number | string) => {
             if (iframeDoc.readyState == 'complete' || iframeDoc.readyState == 'interactive') {
                 document.body.removeAttribute(iframe);
                 ElMessageBox.confirm(
-                    '<div style="text-align: center"><span>下载成功</span></div><div style="text-align: center;margin-top: 10px"><button class="btn123">返回(3)</button></div>',
+                    '<div style="text-align: center"><span style="font-size: 14px">下载成功</span></div><div style="text-align: center;margin-top: 10px"><button class="btn123" style="font-size: 14px">返回(3)</button></div>',
                     {
                         type: 'success',
                         // confirmButtonText: `${index.value}`,
@@ -332,7 +332,7 @@ const add_apply = (fdata: object) => {
         console.log(res)
         if (res.retCode == 0) {
             ElMessageBox.confirm(
-                '<div style="text-align: center"><span>申请成功</span></div><div style="text-align: center;margin-top: 10px"><button class="btn123">返回(3)</button></div>',
+                '<div style="text-align: center;"><span style="font-size: 14px">申请成功</span></div><div style="text-align: center;margin-top: 10px"><button class="btn123" style="font-size: 14px">返回(3)</button></div>',
                 {
                     type: 'success',
                     // confirmButtonText: `${index.value}`,
@@ -556,7 +556,6 @@ onMounted(() => {
 
 .shade-123 {
     height: 200px;
-
 }
 
 
