@@ -128,6 +128,7 @@ const routes = [
                 meta: {title: '上传管理'}
             },
             {
+
                 path: 'warehouse',
                 name: 'warehouse',
                 redirect: '/system/warehouse/list',
@@ -145,8 +146,13 @@ const routes = [
                         meta: {title: '记录详情'}
                     }
                 ]
+            },
+            {
+                name: 'tracingsourcecode',
+                path: 'tracingsourcecode',
+                component: () => import('@/views/tracingsourcecode/index.vue'),
+                meta: {title: '申请溯源码'},
             }
-
         ]
     }
 ]
