@@ -31,7 +31,11 @@ const menuList = reactive([
     {text: '上传管理', icon: "icon-a-04", route: '/system/upload', iconCustom: false},
     {text: '运营商管理', icon: "icon-a-06", route: '/system/shop', iconCustom: false},
     {text: '申请溯源码', icon: "icon-a-06", route: '/system/tracingsourcecode', iconCustom: false},
-
+    {text: '账号管理', icon: "icon-a-08", route: '/system/account', iconCustom: false},
+    {text: '产品管理', icon: "icon-a-02", route: '/system/product', iconCustom: false},
+    {text: '上传管理', icon: "icon-a-04", route: '/system/upload', iconCustom: false},
+    {text: '仓库管理', icon: "icon-a-05", route: '/system/warehouse', iconCustom: false},
+    {text: '运营商管理', icon: "icon-a-06", route: '/system/shop', iconCustom: false},
 ])
 </script>
 

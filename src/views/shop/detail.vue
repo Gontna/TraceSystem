@@ -79,7 +79,7 @@
     </div>
     <div class="w-1/1 px-4 flex flex-row justify-between items-center" style="min-height:0;">
       <div>
-        <el-button link type="primary" @click="mult_del_handler">批量删除</el-button>
+
       </div>
       <div class="flex-1"></div>
       <div>

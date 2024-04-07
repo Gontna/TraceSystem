@@ -25,7 +25,7 @@ const routes = [
                 path: 'account',
                 name: 'account',
                 redirect: '/system/account/list',
-                componenet: () => import('@/views/accountSetting/index.vue'),
+
 
                 children: [
                     {
@@ -95,7 +95,7 @@ const routes = [
                 path: 'product',
                 name: 'product',
                 redirect: "/system/product/list",
-                component: () => import('@/views/productManagement/index.vue'),
+
                 meta: {title: '产品管理'},
                 children: [
                     {
@@ -131,7 +131,24 @@ const routes = [
                 name: 'tracingsourcecode',
                 path: 'tracingsourcecode',
                 component: () => import('@/views/tracingsourcecode/index.vue'),
-                meta: {title: '申请溯源码'}
+                meta: {title: '申请溯源码'},
+                path: 'warehouse',
+                name: 'warehouse',
+                redirect: '/system/warehouse/list',
+                children: [
+                    {
+                        path: 'list',
+                        name: 'warehouseList',
+                        component: () => import('@/views/warehouse/ListView.vue'),
+                        meta: {title: '仓库管理'}
+                    },
+                    {
+                        path: 'detail',
+                        name: 'warehouseDetail',
+                        component: () => import('@/views/warehouse/detail.vue'),
+                        meta: {title: '记录详情'}
+                    }
+                ]
             }
         ]
     }

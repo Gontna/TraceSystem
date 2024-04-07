@@ -121,6 +121,9 @@ let pageInfo = reactive({
     currentPage: 1, //当前页码
     pageSize: 10, //每页显示条目数
     totalPage: 1,  //总数居
+  currentPage: 1, //当前页码
+  pageSize: 10, //每页显示条目数
+  totalPage: 1,  //总页数
 })
 onMounted(() => {
     getUserInfo()
@@ -182,6 +185,25 @@ const detail = (UserId: number, UserLevel: string) => {
         showConfirmButton: false,
         center: true,
     })
+    }
+  })
+  ElMessageBox({
+    message: () =>
+        h(ElCheckboxGroup, {
+          modelValue: checkList.value,
+          //@ts-ignore
+          "onUpdate:modelValue": (val) => (checkList.value = val),
+        }, () => [
+          h(ElCheckbox, {value: '1',}, () => '产品管理'),
+          h(ElCheckbox, {value: '2',}, () => '申请溯源码'),
+          h(ElCheckbox, {value: '3',}, () => '上传管理'),
+          h(ElCheckbox, {value: '4',}, () => '仓库管理'),
+          h(ElCheckbox, {value: '5',}, () => '运营商管理'),
+        ]),
+    showConfirmButton: false,
+    center: true,
+    customClass: 'account'
+  })
 
 
 }
@@ -361,6 +383,10 @@ onMounted(() => {
 </script>
 
 <style>
+.account {
+  border-radius: 2vh;
+  
+}
 
 .el-message-box {
     width: 120vh;
@@ -381,6 +407,26 @@ onMounted(() => {
 .el-message-box__btns .el-button {
     width: 10vh;
     margin: 0 3vh;
+}
+.account .el-message-box {
+  width: 120vh;
+  height: 30vh;
+  border-radius: 2vh;
+
+}
+
+.account .el-message-box__content {
+  margin: 5vh 0;
+  font-size: 2rem;
+}
+
+.account .el-message-box__message p {
+  line-height: 30px;
+}
+
+.account .el-message-box__btns .el-button {
+  width: 10vh;
+  margin: 0 3vh;
 }
 </style>
 <style scoped>
