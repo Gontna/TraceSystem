@@ -28,16 +28,18 @@
     >
       <el-form-item label="产品名称:" prop="ProName">
         <el-select
-            v-model="value"
+            v-model="formData.ProId"
+            filterable
             placeholder=""
             style="width: 16em"
         >
           <el-option
               v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-          />
+              :key="item.ProId"
+              :label="item.ProName"
+              :value="item.ProId"
+          >
+          </el-option>
 
 
         </el-select>
@@ -49,7 +51,7 @@
       <br>
       <el-form-item label="生产日期" prop="createDate">
         <el-date-picker
-            v-model="formData.CreateDate"
+            v-model="formData.ProduceDate"
             clearable
             format="YYYY/MM/DD"
             placeholder=""
@@ -63,7 +65,8 @@
   </div>
   <div class="w-1/1 h-5/7 rounded-md shallow bg-white px-4 flex-row justify-between items-center" style="min-height:0;">
     <div class="w-1/1 h-1/7 pt-4 px-4  flex items-center" style="min-height:40px ">
-      <el-form-item class="content" label="筛选:">
+      <el-form-item class="content " label="">
+        <span class="text-16px">筛选:</span>
         <button
             v-for="(item,index) in ButtonText" :key="index"
             :class="activate==index?'active':''"
@@ -75,18 +78,20 @@
 
 
       <el-form-item class="mx-5" label="批次编号:">
-        <el-input v-model="query.BatchCode"/>
+        <el-input v-model="query.batchCode" @change="search"/>
       </el-form-item>
       <el-form-item class="mx-5">
         <el-date-picker
-            v-model="query.createDate"
+            v-model="query.produceDate"
             clearable
             format="YYYY/MM/DD"
             placeholder=""
             style="width: 9em;"
             type="date"
             value-format="YYYY-MM-DD"
+            @change="search"
         ></el-date-picker>
+
       </el-form-item>
     </div>
     <div class="px-3 w-1/1 flex-1" style="min-height:0;">
@@ -99,9 +104,9 @@
                 @selection-change="multi_del">
         <el-table-column align="center" type="selection"/>
         <el-table-column align="center" label="序号" prop="BatchId" width="60"/>
-        <el-table-column align="center" label="上传日期" prop="CreateDate">
+        <el-table-column align="center" label="上传日期" prop="ProduceDate">
           <template #default="scope">
-            {{ timeChange(scope.row.CreateDate) ?? '-' }}
+            {{ timeChange(scope.row.ProduceDate) ?? '-' }}
           </template>
         </el-table-column>
         <el-table-column align="center" label="产品名称" property="ProName">
@@ -181,39 +186,49 @@ import {nextTick, onMounted, reactive, ref} from "vue";
 import {UploadFilled} from '@element-plus/icons-vue'
 import {ElMessage, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
 import {getProBatchInfo} from "@/api/upload.ts";
+import {getInfo} from "@/api/ProductInfo.ts";
 
 const upload = ref<UploadInstance>()
-const value = ref('')
 const ButtonText = ['近一周', '近一月', '近三月']
 const activate = ref(-1)
 const data = ref([])
-const options = [
+const options = ref([
   {
-    value: '1',
-    label: '选项1'
-  },
-  {
-    value: '2',
-    label: '选项2'
+    ProId: '1',
+    ProName: '选项1'
   },
 
-]
+
+])
+//查询参数
 const query = reactive({
   timeType: '',
-  BatchCode: '',
-  createDate: ''
+  batchCode: '',
+  produceDate: ''
 })
+//上传的表单信息
 const formData = ref({
   file: null,
+  ProId: '',
   BatchCode: '',
-  CreateDate: '',
+  ProduceDate: '',
 })
+//翻页器信息
 let pageInfo = reactive({
   currentPage: 1, //当前页码
   pageSize: 10, //每页显示条目数
-  totalPage: 1,  //总数居
+  totalPage: 1,  //总页数
 })
 onMounted(() => {
+  //获取表单中下拉选项数据
+  getInfo().then((res: any) => {
+    if (res.retCode === 0) {
+      options.value = res.retData.info
+    }
+  }).catch((err: any) => {
+    ElMessage.error(err.retMsg)
+  })
+  //获取table数据
   getData()
 })
 const getData = () => {
@@ -223,10 +238,20 @@ const getData = () => {
 
     }
   }).catch((err: any) => {
+    data.value = []
     ElMessage.info(err.retMsg)
   })
 }
+//查询函数
+const search = () => {
+  //清空日期时把null变成 ''
+  if (!query.produceDate) {
+    query.produceDate = ''
+  }
+  getData()
+}
 
+//上传文件相关
 function fileChange(file: any) {
   console.log(file)
   formData.value.file = file['raw']
@@ -234,16 +259,21 @@ function fileChange(file: any) {
 
 }
 
+//按钮样式控制与查询
 const queryChange = (index: number) => {
 
   if (activate.value == index) {
     activate.value = -1
+    query.timeType = ''
+    getData()
   } else {
     activate.value = index
+    query.timeType = (index + 1).toString()
+    getData()
   }
-  query.timeType = (index + 1).toString()
-  // getData()
+
 }
+//控制文件上传数量
 const handleExceed: UploadProps['onExceed'] = (files) => {
   upload.value!.clearFiles()
   const file = files[0] as UploadRawFile
@@ -339,6 +369,7 @@ onMounted(() => {
 }
 
 .content .el-form-item__content {
+
   min-height: 40px;
   min-width: 252px;
 }

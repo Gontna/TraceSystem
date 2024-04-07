@@ -23,15 +23,15 @@
     </div>
   </div>
 
-  <div class="flex justify-start flex-wrap   mt-3  "
-       style="overflow: auto;max-height: 100%"
+  <div class="flex h-1/1 justify-start flex-wrap  min-w-1100px mt-3  "
+       style="overflow: auto;max-height: 560px;max-height: 560px"
   >
     <div v-for="(item,index) in data" :key="index"
          class=" flex-1 w-80 min-w-80 max-w-80 m-4 bg-white h-38 rounded-xl"
          @click.stop="toDetail(item)">
       <div class="flex justify-between">
         <div class=" w-30 h-6  rounded-br-xl  rounded-tl-xl"
-             style="text-align: center;color: #fff;background-color: #279cff;font-size: 14px">
+             style="text-align: center;color: #fff;background-color: #279cff;font-size: 14px;overflow: hidden">
           {{ item.ShopName }}
         </div>
 

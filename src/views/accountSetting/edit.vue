@@ -200,3 +200,60 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   return true
 }
 </script>
+<style>
+
+.el-checkbox__label {
+  color: #c9c9cd;
+}
+
+.el-checkbox__inner {
+  border-radius: 50%;
+}
+
+.el-checkbox__inner::after {
+  transform: translate(-50%, -50%) scale(1) !important;
+  width: 4px;
+  height: 4px;
+  border-radius: 50% !important;
+  background-color: var(--el-color-white);
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transition: transform 0.15s ease-in;
+}
+
+.demo-form-inline .el-input {
+  --el-input-width: 220px;
+}
+
+.demo-form-inline .el-select {
+  --el-select-width: 220px;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  background-color: #f6f6f6;
+}
+
+.el-breadcrumb__item:last-child .el-breadcrumb__inner, .el-breadcrumb__item:last-child .el-breadcrumb__inner a, .el-breadcrumb__item:last-child .el-breadcrumb__inner a:hover, .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: var(--el-color-primary);
+}
+</style>

@@ -118,7 +118,7 @@ const query = ref({
 let pageInfo = reactive({
   currentPage: 1, //当前页码
   pageSize: 10, //每页显示条目数
-  totalPage: 1,  //总数居
+  totalPage: 1,  //总页数
 })
 onMounted(() => {
   getUserInfo()
@@ -179,6 +179,7 @@ const detail = (UserId: number, UserLevel: string) => {
         ]),
     showConfirmButton: false,
     center: true,
+    customClass: 'account'
   })
 
 
@@ -359,24 +360,28 @@ onMounted(() => {
 </script>
 
 <style>
+.account {
+  border-radius: 2vh;
+  
+}
 
-.el-message-box {
+.account .el-message-box {
   width: 120vh;
   height: 30vh;
   border-radius: 2vh;
 
 }
 
-.el-message-box__content {
+.account .el-message-box__content {
   margin: 5vh 0;
   font-size: 2rem;
 }
 
-.el-message-box__message p {
+.account .el-message-box__message p {
   line-height: 30px;
 }
 
-.el-message-box__btns .el-button {
+.account .el-message-box__btns .el-button {
   width: 10vh;
   margin: 0 3vh;
 }

@@ -1,5 +1,11 @@
 import request from "@/axios/index";
 
+export function getInfo() {
+    return request({
+        url: '/api/ProInfo/ProInfoList',
+        method: 'get'
+    })
+}
 
 // @ts-ignore
 export function getProInfo(query: string | undefined, currentPage: number, PageSize: number, trunfiler: boolean) {
@@ -27,7 +33,6 @@ export function getProInfo(query: string | undefined, currentPage: number, PageS
 }
 
 export function getProByName(ProName: string, currentPage: number, PageSize: number) {
-    console.log(ProName);
     return request({
         url: '/api/ProInfo/ProInfoList?proName=' + ProName + '&currentPage=' + currentPage + "&PageSize=" + PageSize,
         method: 'get'

@@ -7,6 +7,13 @@ export function getShopInfoList(keyName: string, pageInfo: any) {
     })
 }
 
+export function getShopInfo() {
+    return request({
+        url: '/api/ShopInfo/ShopInfoList?pageSize=1000',
+        method: 'get'
+    })
+}
+
 export function addAndEditShopInfo(query: any, file: any) {
     let condition = []
     for (let index in query) {

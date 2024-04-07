@@ -21,4 +21,5 @@ export const useAccountStore = defineStore('account',
         },
         getters: {},
         actions: {},
+        persist: true,
     })
