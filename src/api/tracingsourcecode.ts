@@ -22,7 +22,14 @@ export function get_proId_proName(CurrentPage: number, PageSize: number) {
     })
 }
 
-export function Add_Ayyly(proId: string, applyName: string, levThreeCount: number, levOneCount: number, levTwoCount: number) {
+export function getSelectProName() {
+    return request({
+        url: '/api/ProInfo/ProInfoList?PageSize=99999',
+        method: 'get'
+    })
+}
+
+export function Add_Ayyly(proId: string, applyName: string, levThreeCount: number | string, levOneCount: number | string, levTwoCount: number | string) {
     return request({
         url: '/api/TraceInfo/TraceCodeApply',
         method: 'get',

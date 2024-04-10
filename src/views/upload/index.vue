@@ -1,71 +1,78 @@
 <template>
-  <div class="w-1/1 h-1/4 rounded-md shallow bg-white p-4 mb-5 flex
-  items-center ">
-    <el-upload
-        ref="upload"
-        :auto-upload="false"
-        :limit="5"
-        :on-change="fileChange"
-        :on-exceed="handleExceed"
-        class="this flex  "
-        drag
-        multiple
-    >
-      <el-icon class="el-icon--upload">
-        <upload-filled/>
-      </el-icon>
-      <div class="el-upload__text">
-        将文件拖到此区域,或<em>点击上传</em>
-        <p style="font-size:  13px;color: #8c939d">最多上传5个附件,每个附件大小不超过3M</p>
-      </div>
-    </el-upload>
+  <div class="w-1/1 h-1/4 rounded-md shallow bg-white p-4 mb-5
+   ">
     <el-form ref="ruleFormRef"
              :inline="true"
              :model="formData"
-             class="demo-form-inline"
+             :rules="form_rules"
+             class="demo-form-inline flex items-center"
              label-position=left label-width="6em"
              style="min-width: 660px"
     >
-      <el-form-item label="产品名称:" prop="ProName">
-        <el-select
-            v-model="formData.ProId"
-            filterable
-            placeholder=""
-            style="width: 16em"
+      <el-form-item prop="file">
+        <el-upload
+            ref="upload"
+            :auto-upload="false"
+            :limit="5"
+            :on-change="fileChange"
+            :on-exceed="handleExceed"
+            class="this flex  "
+            drag
+            multiple
         >
-          <el-option
-              v-for="item in options"
-              :key="item.ProId"
-              :label="item.ProName"
-              :value="item.ProId"
+          <el-icon class="el-icon--upload">
+            <upload-filled/>
+          </el-icon>
+          <div class="el-upload__text">
+            将文件拖到此区域,或<em>点击上传</em>
+            <p style="font-size:  13px;color: #8c939d">最多上传5个附件,每个附件大小不超过3M</p>
+          </div>
+        </el-upload>
+      </el-form-item>
+      <div>
+        <el-form-item label="产品名称:" prop="ProId">
+          <el-select
+              v-model="formData.ProId"
+              filterable
+              placeholder=""
+              style="width: 16em"
+              validate-event
           >
-          </el-option>
+            <el-option
+                v-for="item in options"
+                :key="item.ProId"
+                :label="item.ProName"
+                :value="item.ProId"
+            />
+            >
 
 
-        </el-select>
-      </el-form-item>
-      <el-form-item label="批号:" prop="batchCode">
-        <el-input v-model="formData.BatchCode"></el-input>
-      </el-form-item>
-      <br>
-      <br>
-      <el-form-item label="生产日期" prop="createDate">
-        <el-date-picker
-            v-model="formData.ProduceDate"
-            clearable
-            format="YYYY/MM/DD"
-            placeholder=""
-            type="date"
-            value-format="YYYY-MM-DD"></el-date-picker>
-      </el-form-item>
-      <el-form-item label=" ">
-        <el-button style="width: 14.3em" type="info">上传</el-button>
-      </el-form-item>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="批号:" prop="BatchCode">
+          <el-input v-model="formData.BatchCode"/>
+        </el-form-item>
+        <br>
+        <br>
+        <el-form-item label="生产日期" prop="ProduceDate">
+          <el-date-picker
+              v-model="formData.ProduceDate"
+              clearable
+              format="YYYY/MM/DD"
+              placeholder=""
+              type="date"
+              value-format="YYYY-MM-DD"/>
+        </el-form-item>
+        <el-form-item label=" ">
+          <el-button style="width: 14.3em" type="info" @click="submit(ruleFormRef)">上传</el-button>
+        </el-form-item>
+      </div>
+
     </el-form>
   </div>
   <div class="w-1/1 h-5/7 rounded-md shallow bg-white px-4 flex-row justify-between items-center" style="min-height:0;">
-    <div class="w-1/1 h-1/7 pt-4 px-4  flex items-center" style="min-height:40px ">
-      <el-form-item class="content " label="">
+    <div class="w-1/1 h-1/7 pt-4 px-4  flex items-center">
+      <el-form-item class="content " label="" style="min-width:300px ">
         <span class="text-16px">筛选:</span>
         <button
             v-for="(item,index) in ButtonText" :key="index"
@@ -184,10 +191,12 @@
 import {nextTick, onMounted, reactive, ref} from "vue";
 
 import {UploadFilled} from '@element-plus/icons-vue'
-import {ElMessage, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
-import {getProBatchInfo} from "@/api/upload.ts";
+import {ElMessage, FormInstance, genFileId, UploadInstance, UploadProps, UploadRawFile} from "element-plus";
+import {getProBatchInfo, uploadFile} from "@/api/upload.ts";
 import {getInfo} from "@/api/ProductInfo.ts";
+import {hint} from "@/components/hint.ts";
 
+const ruleFormRef = ref<FormInstance>()
 const upload = ref<UploadInstance>()
 const ButtonText = ['近一周', '近一月', '近三月']
 const activate = ref(-1)
@@ -197,9 +206,22 @@ const options = ref([
     ProId: '1',
     ProName: '选项1'
   },
-
-
 ])
+
+const form_rules = reactive({
+  ProId: [
+    {required: true, message: '请输入产品名称', trigger: 'blur'}
+  ],
+  file: [
+    {required: true, message: '请上传附件', trigger: 'blur'}
+  ],
+  BatchCode: [
+    {required: true, message: '请输入名称', trigger: 'blur'}
+  ],
+  ProduceDate: [
+    {required: true, message: '请输入创建日期', trigger: 'blur'}
+  ],
+})
 //查询参数
 const query = reactive({
   timeType: '',
@@ -249,6 +271,25 @@ const search = () => {
     query.produceDate = ''
   }
   getData()
+}
+const submit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  let file = new FormData();
+  //@ts-ignore
+  file.append('Filedata', formData.value.file)
+  await formEl.validate((valid) => {
+    if (valid) {
+      uploadFile(formData.value.BatchCode, formData.value.ProId, formData.value.ProduceDate, file).then((res: any) => {
+        if (res.retCode === 0) {
+          hint('上传成功')
+          getData()
+        }
+      }).catch((err: any) => {
+        ElMessage.error(err.retMsg)
+      })
+    }
+  })
+
 }
 
 //上传文件相关
@@ -372,5 +413,30 @@ onMounted(() => {
 
   min-height: 40px;
   min-width: 252px;
+}
+</style>
+
+
+<style>
+
+.el-message-box {
+  width: 120vh;
+  height: 30vh;
+  border-radius: 2vh;
+
+}
+
+.el-message-box__content {
+  margin: 5vh 0;
+  font-size: 2rem;
+}
+
+.el-message-box__message p {
+  line-height: 30px;
+}
+
+.el-message-box__btns .el-button {
+  width: 10vh;
+  margin: 0 3vh;
 }
 </style>

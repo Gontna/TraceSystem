@@ -23,11 +23,12 @@
     </div>
   </div>
 
-  <div class="flex h-1/1 justify-start flex-wrap  min-w-1100px mt-3  "
-       style="overflow: auto;max-height: 560px;max-height: 560px"
+  <div class="flex w-1/1 h-1/1 justify-start flex-wrap  min-w-1100px mt-3  "
+       style="overflow: auto;max-height: 70vh;max-height: 70vh"
   >
     <div v-for="(item,index) in data" :key="index"
-         class=" flex-1 w-80 min-w-80 max-w-80 m-4 bg-white h-38 rounded-xl"
+         class=" flex-1  m-4 bg-white h-40 rounded-xl"
+         style="width: 38vh;min-width: 38vh;max-width: 38vh"
          @click.stop="toDetail(item)">
       <div class="flex justify-between">
         <div class=" w-30 h-6  rounded-br-xl  rounded-tl-xl"

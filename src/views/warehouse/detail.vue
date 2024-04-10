@@ -142,6 +142,7 @@ import {useWareHouseStore} from "@/store/warehouse.ts";
 import {nextTick, onMounted, reactive, ref} from "vue";
 import {DelProCodeInfo, getProInfoByProId} from "@/api/warehouse.ts";
 import {ElMessage} from "element-plus";
+import {hint} from "@/components/hint.ts";
 
 const wareHouseStore = useWareHouseStore()
 const data = ref([])
@@ -208,7 +209,7 @@ const search = () => {
 const deleteTarget = (outBatchCode: string, codeState: string) => {
   DelProCodeInfo(outBatchCode, codeState).then((res: any) => {
     if (res.retCode === 0) {
-      ElMessage.success('删除成功')
+      hint('删除成功')
       getData()
     }
   }).catch((err: any) => {

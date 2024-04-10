@@ -186,18 +186,18 @@ const detail = (UserId: number, UserLevel: string) => {
 }
 
 const delInfo = async (userId: number, userLevel: string) => {
-  hint()
-  await delUserInfo(userId, userLevel).then((res: any) => {
-    if (res.retCode === 0) {
-      hint()
-      getUserInfo()
-    }
-  }).catch((err: any) => {
-    ElMessage({
-      type: 'error',
-      message: err.retMsg
-    })
-  })
+  hint('删除成功')
+  // await delUserInfo(userId, userLevel).then((res: any) => {
+  //   if (res.retCode === 0) {
+  //     hint('删除成功')
+  //     getUserInfo()
+  //   }
+  // }).catch((err: any) => {
+  //   ElMessage({
+  //     type: 'error',
+  //     message: err.retMsg
+  //   })
+  // })
 }
 const deleteTarget = async (userId: number, userLevel: string) => {
   //删除用户信息
@@ -209,6 +209,7 @@ const deleteTarget = async (userId: number, userLevel: string) => {
         center: true,
       }
   ).then(() => {
+
     delInfo(userId, userLevel)
 
   })
@@ -252,7 +253,7 @@ const mult_del_handler = () => {
     deleteTarget(del_target[0].userId, del_target[0].userLevel)
   } else {
     ElMessageBox.confirm(
-        '是否删除设备',
+        '是否删除用户',
         {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
@@ -360,28 +361,24 @@ onMounted(() => {
 </script>
 
 <style>
-.account {
-  border-radius: 2vh;
-  
-}
 
-.account .el-message-box {
+.el-message-box {
   width: 120vh;
   height: 30vh;
   border-radius: 2vh;
 
 }
 
-.account .el-message-box__content {
+.el-message-box__content {
   margin: 5vh 0;
   font-size: 2rem;
 }
 
-.account .el-message-box__message p {
+.el-message-box__message p {
   line-height: 30px;
 }
 
-.account .el-message-box__btns .el-button {
+.el-message-box__btns .el-button {
   width: 10vh;
   margin: 0 3vh;
 }

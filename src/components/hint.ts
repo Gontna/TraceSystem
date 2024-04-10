@@ -4,7 +4,7 @@ import {h, ref} from 'vue'
 
 const time = ref(3)
 
-export function hint() {
+export function hint(text: string) {
 
     time.value = 3
 
@@ -12,7 +12,7 @@ export function hint() {
         dangerouslyUseHTMLString: true,
         message: h('div', {class: 'flex flex-col justify-center items-center'}, [
             h('img', {src: '/Subtract.png'}, ''),
-            h('span', {class: 'm-3 mb-4'}, '删除成功'),
+            h('span', {class: 'm-3 mb-4'}, text),
             h('button', {
                 style: 'width:100px;height:30px;border-radius:5px; background-color:#2b9cfa;color:#fff;font-size:16px;padding: 5px;  ',
 

@@ -2,44 +2,37 @@
   <div class="w-1/1 h-1/1 rounded-md shallow bg-white p-4 flex flex-col justify-center items-center ">
     <div class="w-1/1 pt-4 flex flex-row justify-center items-between">
       <el-form class="w-1/1 px-3">
-        <div class="w-1/1 flex">
+        <div class="w-1/1 flex flex-row justify-between items-start">
           <el-form-item class="search">
-            <el-input v-model.trim.lazy="query.batchCode"
+            <el-input v-model.trim.lazy="query.keyName"
                       placeholder="输入查询">
               <template #append>
                 <el-button style="color: #ffffff;background-color: #2b9cfa;border-radius: 0 5px 5px 0; "
-                           @click="search">查找
+                           @click="getData">查找
                 </el-button>
               </template>
             </el-input>
           </el-form-item>
 
+
         </div>
       </el-form>
     </div>
-
     <div class="px-3 w-1/1 flex-1" style="min-height:0;">
       <el-table id="tableData" :data="data" :header-cell-style="rowClass"
                 :height="height"
                 class="rounded-lg "
                 fit
+
                 @selection-change="multi_del">
         <el-table-column align="center" type="selection"/>
-        <el-table-column align="center" label="序号" prop="ProId" width="60"/>
-        <el-table-column align="center" label="产品图片" prop="ImgUrl">
-          <template #default="scope">
-            <el-image
-                :src="scope.row.ImgUrl"
-                fit="cover"
-                style="width: 50px; height: 50px"
-            ></el-image>
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="产品名称" property="ProName">
+        <el-table-column align="center" label="序号" prop="ScanCodeId" width="60"/>
+        <el-table-column align="center" label="产品名称" prop="ProName">
           <template #default="scope">
             {{ scope.row.ProName ?? '-' }}
           </template>
         </el-table-column>
+
         <el-table-column align="center" label="登记证号" property="ProRegNo">
           <template #default="scope">
             {{ scope.row.ProRegNo ?? '1' }}
@@ -50,38 +43,31 @@
             {{ scope.row.ProRegOwner ?? '-' }}
           </template>
         </el-table-column>
+        <el-table-column align="center" label="批号" property="BatchCode">
+          <template #default="scope">
+            {{ scope.row.BatchCode ?? '-' }}
+          </template>
+        </el-table-column>
 
-        <el-table-column align="center" label="包装等级" prop="ProLevel">
+        <el-table-column align="center" label="产品应处位置" prop="Destination">
           <template #default="scope">
-            {{ scope.row.ProLevel }}级
+            {{ scope.row.Destination }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="箱数" prop="BoxCodeCount">
+        <el-table-column align="center" label="产品实际位置" prop="RealAddr">
           <template #default="scope">
-            {{ scope.row.BoxCodeCount }}
+            {{ scope.row.RealAddr }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="盒数" prop="HeMaCodeCount">
+        <el-table-column align="center" label="预警时间" prop="ScanDate">
           <template #default="scope">
-            {{ scope.row.HeMaCodeCount }}
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="产品数" prop="CodeCount">
-          <template #default="scope">
-            {{ scope.row.CodeCount }}
-          </template>
-        </el-table-column>
-        <el-table-column align="center" label="记录" property="detail">
-          <template #default="scope">
-            <el-button link size="small" type="primary" @click="detail(scope.row)">查看
-            </el-button>
-
+            {{ timeChange(scope.row.ScanDate) }}
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作 ">
           <template #default="scope">
 
-            <el-button size="small" type="success" @click="outBound(scope.row.BatchCode)">出库
+            <el-button size="small" type="danger" @click="deleteTarget(scope.row.ScanCodeId)">删除
             </el-button>
           </template>
         </el-table-column>
@@ -104,156 +90,78 @@
       </div>
     </div>
   </div>
-  <el-dialog
-      v-model="centerDialogVisible"
-      align-center
-      center
-      style="border-radius: 2vh"
-      width="400"
-  >
-    <el-form label-width="7em">
-      <el-form-item label="运营商:">
-        <el-select
-            v-model="formData.shopId"
-            filterable
-            placeholder=""
-            style="width: 15em"
-
-        >
-          <el-option
-              v-for="item in options"
-              :key="item.ShopId"
-              :label="item.ShopName"
-              :value="item.ShopId"
-              @click="console.log(item.ShopName);
-              formData.shopName=item.ShopName"
-
-          ></el-option>
-        </el-select>
-
-      </el-form-item>
-      <el-form-item label="出货地址:">
-        <el-input v-model="formData.destination" style="width: 15em;"></el-input>
-      </el-form-item>
-      <el-form-item label="批次编号:">
-        <el-input v-model="formData.batchCode" style="width: 15em;"></el-input>
-      </el-form-item>
-      <el-form-item label="出库数量:">
-        <el-input v-model.number="formData.outCount" style="width: 15em;"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="info" @click="centerDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="outBoundConfirm">出库</el-button>
-      </el-form-item>
-    </el-form>
-
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import {nextTick, onMounted, reactive, ref} from 'vue'
-import {getProBatchInfo, ProOutBound} from "@/api/warehouse.ts";
-import {ElForm, ElFormItem, ElInput, ElMessage} from "element-plus";
-
-import {useRouter} from "vue-router";
-import {getShopInfo} from "@/api/shop.ts";
-import {useWareHouseStore} from "@/store/warehouse.ts";
+import {delScanCodeInfo, getScanCodeInfo} from "@/api/goodswarning.ts";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {hint} from "@/components/hint.ts";
 
-const wareHouseStore = useWareHouseStore()
-const router = useRouter()
-const centerDialogVisible = ref(false)
 const data = ref([])
-const formData = ref({
-  shopId: '',
-  shopName: '',
-  batchCode: '',
-  destination: '',
-  outCount: 0
+const query = ref({
+  keyName: ''
 })
-const options = ref([
-  {
-    ShopId: '1',
-    ShopName: '选项1'
-  }
-])
-const query = reactive({
-  batchCode: ''
+let pageInfo = reactive({
+  currentPage: 1, //当前页码
+  pageSize: 10, //每页显示条目数
+  totalPage: 1,  //总页数
 })
 onMounted(() => {
   getData()
 })
 const getData = () => {
-  getProBatchInfo(query, pageInfo).then((res: any) => {
-
+  getScanCodeInfo(query.value.keyName, pageInfo).then((res: any) => {
     if (res.retCode === 0) {
       data.value = res.retData.info
     }
   }).catch((err: any) => {
     data.value = []
     ElMessage.error(err.retMsg)
-
   })
 }
-const search = () => {
-  getData()
-}
-const outBoundConfirm = () => {
-  console.log(formData.value)
-
-
-  ProOutBound(formData.value).then((res: any) => {
+const delInfo = (scanCodeId: number) => {
+  delScanCodeInfo(scanCodeId).then((res: any) => {
     if (res.retCode === 0) {
-      hint('出库成功')
-      centerDialogVisible.value = true
-      formData.value.outCount = 0
-      formData.value.shopName = ''
-      formData.value.shopId = ''
-      formData.value.batchCode = ''
-      formData.value.destination = ''
+      ElMessage.success('删除成功')
+      getData()
     }
   }).catch((err: any) => {
     ElMessage.error(err.retMsg)
   })
 }
-let pageInfo = reactive({
-  currentPage: 1, //当前页码
-  pageSize: 10, //每页显示条目数
-  totalPage: 1,  //总页数
-})
-const detail = (row: any) => {
+const deleteTarget = (scanCodeId: number) => {
+  ElMessageBox.confirm(
+      '是否删除该产品',
+      {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        center: true,
+      }
+  ).then(() => {
+    hint('删除成功')
+    delInfo(scanCodeId)
+  })
 
-  wareHouseStore.data = row
-  router.push({name: 'warehouseDetail'})
 }
 let del_target_cache = ref([])
 const multi_del = (value: any) => {
   del_target_cache.value = value
 
 }
-const outBound = async (BatchCode: string) => {
-  formData.value.batchCode = BatchCode
-  centerDialogVisible.value = true
 
-  await getShopInfo().then((res: any) => {
-    if (res.retCode === 0) {
-      options.value = res.retData.info
-
-    }
-  }).catch((err: any) => {
-    ElMessage.error(err.retMsg)
-  })
-}
 const mult_del_handler = () => {
 }
+
 const pageSizeChange = (pageSize: number) => {
   pageInfo.pageSize = pageSize
   //翻页器大小改变事件
-
+  getData()
 }
 const currPageChange = (index: number) => {
   pageInfo.currentPage = index
   //翻页事件
+  getData()
 
 }
 const rowClass = (row: any,) => {
@@ -264,6 +172,10 @@ const rowClass = (row: any,) => {
     return {background: '#F0F5FF', color: '#606266'}
   }
 
+}
+const timeChange = (time: any) => {
+  let data = new Date(time);
+  return `${data.getFullYear()}/${data.getMonth() + 1}/${data.getDate()}`
 }
 
 
@@ -298,9 +210,15 @@ onMounted(() => {
 
 /////////////////////////////////////////////////
 </script>
+
+
+<style scoped>
+
+</style>
 <style>
 
 .el-message-box {
+
   width: 120vh;
   height: 30vh;
   border-radius: 2vh;
@@ -320,34 +238,4 @@ onMounted(() => {
   width: 10vh;
   margin: 0 3vh;
 }
-</style>
-<style>
-.persdsd {
-  border-radius: 2vh;
-}
-
-.persdsd .el-message-box {
-  width: 120vh;
-  height: 35vh;
-  border-radius: 2vh;
-
-}
-
-.persdsd .el-message-box__content {
-  margin: 5vh 0;
-  font-size: 1rem;
-}
-
-.persdsd .el-message-box__message p {
-  line-height: 30px;
-}
-
-.persdsd .el-message-box__btns .el-button {
-  width: 10vh;
-  margin: 0 3vh;
-}
-</style>
-
-<style scoped>
-
 </style>

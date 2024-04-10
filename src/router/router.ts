@@ -152,6 +152,28 @@ const routes = [
                 path: 'tracingsourcecode',
                 component: () => import('@/views/tracingsourcecode/index.vue'),
                 meta: {title: '申请溯源码'},
+            },
+            {
+                path: 'goodswarning',
+                name: 'goodswarning',
+                component: () => import('@/views/goodsWarning/index.vue'),
+                meta: {title: '防窜货预警'},
+            },
+            {
+                path: 'workbrench',
+                name: 'workbrench',
+                redirect: '/system/workbrench/list',
+                children: [
+                    {
+                        path: 'list',
+                        name: 'workBrenchList',
+                        component: () => import('@/views/workBrench/ListView.vue'),
+                        meta: {title: '工作台'}
+                    }
+                ]
+            }, {
+                path: 'test',
+                component: () => import('@/views/test.vue')
             }
         ]
     }

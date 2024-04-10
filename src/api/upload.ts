@@ -12,3 +12,15 @@ export function getProBatchInfo(query: any, pageInfo: any) {
     })
 
 }
+
+export function uploadFile(BatchCode: string, ProId: string, ProduceDate: string, file: any) {
+
+    return request({
+        url: '/api/ProductBatchInfo/UploadFile?BatchCode=' + BatchCode + '&ProId=' + ProId + '&ProduceDate=' + ProduceDate,
+        method: 'post',
+        data: file,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+}

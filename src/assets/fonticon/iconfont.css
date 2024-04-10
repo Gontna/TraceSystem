@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4476589 */
-  src: url('iconfont.woff2?t=1712045470497') format('woff2'),
-       url('iconfont.woff?t=1712045470497') format('woff'),
-       url('iconfont.ttf?t=1712045470497') format('truetype'),
-       url('iconfont.svg?t=1712045470497#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1712742423481') format('woff2'),
+       url('iconfont.woff?t=1712742423481') format('woff'),
+       url('iconfont.ttf?t=1712742423481') format('truetype'),
+       url('iconfont.svg?t=1712742423481#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,50 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-Vector3:before {
+  content: "\e64f";
+}
+
+.icon-Vector31:before {
+  content: "\e650";
+}
+
+.icon-Vector-12:before {
+  content: "\e651";
+}
+
+.icon-Vector-1:before {
+  content: "\e647";
+}
+
+.icon-Vector1:before {
+  content: "\e648";
+}
+
+.icon-Vector-3:before {
+  content: "\e649";
+}
+
+.icon-Vector-5:before {
+  content: "\e64a";
+}
+
+.icon-Vector-4:before {
+  content: "\e64b";
+}
+
+.icon-Vector-2:before {
+  content: "\e64c";
+}
+
+.icon-Vector2:before {
+  content: "\e64d";
+}
+
+.icon-Vector-11:before {
+  content: "\e64e";
 }
 
 .icon-a-06:before {

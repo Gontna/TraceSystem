@@ -6,6 +6,83 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "39867178",
+      "name": "Vector",
+      "font_class": "Vector3",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
+      "icon_id": "39867180",
+      "name": "Vector3",
+      "font_class": "Vector31",
+      "unicode": "e650",
+      "unicode_decimal": 58960
+    },
+    {
+      "icon_id": "39867177",
+      "name": "Vector-1",
+      "font_class": "Vector-12",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "39865369",
+      "name": "Vector-1",
+      "font_class": "Vector-1",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "39865368",
+      "name": "Vector",
+      "font_class": "Vector1",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "39865367",
+      "name": "Vector-3",
+      "font_class": "Vector-3",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "39865366",
+      "name": "Vector-5",
+      "font_class": "Vector-5",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "39865365",
+      "name": "Vector-4",
+      "font_class": "Vector-4",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "39865364",
+      "name": "Vector-2",
+      "font_class": "Vector-2",
+      "unicode": "e64c",
+      "unicode_decimal": 58956
+    },
+    {
+      "icon_id": "39865363",
+      "name": "Vector",
+      "font_class": "Vector2",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "39865362",
+      "name": "Vector-1",
+      "font_class": "Vector-11",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
       "icon_id": "39638962",
       "name": "06",
       "font_class": "a-06",
